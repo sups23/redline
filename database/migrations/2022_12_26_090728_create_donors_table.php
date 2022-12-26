@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('donors', function (Blueprint $table) {
             $table->id();
             
+            $table->string('name');
             $table->enum('blood_group', ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-']);
             $table->string('contact');
+            $table->string('address');
             $table->string('age');
             $table->enum('gender', ['male', 'female']);
             $table->enum('donation_interval', ['3 months', '6 months', '1 year', 'irregular']);
