@@ -20,6 +20,7 @@ class PatientFactory extends Factory
             'name' => fake()->name,
             'blood_group' => fake()->randomElement(['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-']),
             'contact' => fake()->unique()->numberBetween(9800000000, 9899999999),
+            'address' => fake()->address,
             'age' => fake()->numberBetween(16, 60),
             'gender' => fake()->randomElement(['male', 'female']),
             'donation_interval' => fake()->randomElement(['3 months', '6 months', '1 year', 'irregular']),
