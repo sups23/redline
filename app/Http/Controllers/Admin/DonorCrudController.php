@@ -84,13 +84,13 @@ class DonorCrudController extends CrudController
         CRUD::addField([
             'name'=>'gender',
             'type'=>'select_from_array',
-            'options'=>['Male','Female','Others'],
+            'options'=>['male', 'female'],
             'allows_null'=>true,
         ]);
         CRUD::addField([
             'name'=>'donation_interval',
             'type'=>'select_from_array',
-            'options'=>['3 months','6 months','1 year','Irregular'],
+            'options'=>['3 months', '6 months', '1 year', 'irregular'],
             'allows_null'=>true,
         ]);
         CRUD::field('donation_count');
