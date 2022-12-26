@@ -11,4 +11,4 @@
     </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('blood-pack') }}"><i class="nav-icon la la-th-list"></i> Blood packs</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('patient') }}"><i class="nav-icon la la-th-list"></i> Patients</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('donor') }}"><i class="nav-icon la la-th-list"></i> Donors</a></li>

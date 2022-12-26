@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class Donor extends Model
 {
     use CrudTrait, HasFactory;
 
@@ -16,7 +16,7 @@ class Patient extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'patients';
+    protected $table = 'donors';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];

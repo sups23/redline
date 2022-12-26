@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PatientRequest;
+use App\Http\Requests\DonorRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class PatientCrudController
+ * Class DonorCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class PatientCrudController extends CrudController
+class DonorCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class PatientCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Patient::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/patient');
-        CRUD::setEntityNameStrings('patient', 'patients');
+        CRUD::setModel(\App\Models\Donor::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/donor');
+        CRUD::setEntityNameStrings('donor', 'donors');
     }
 
     /**
@@ -41,8 +41,8 @@ class PatientCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('blood_group');
-        CRUD::column('address');
         CRUD::column('contact');
+        CRUD::column('address');
         CRUD::column('age');
         CRUD::column('gender');
         CRUD::column('donation_interval');
@@ -67,12 +67,12 @@ class PatientCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PatientRequest::class);
+        CRUD::setValidation(DonorRequest::class);
 
         CRUD::field('name');
         CRUD::field('blood_group');
-        CRUD::field('address');
         CRUD::field('contact');
+        CRUD::field('address');
         CRUD::field('age');
         CRUD::field('gender');
         CRUD::field('donation_interval');
