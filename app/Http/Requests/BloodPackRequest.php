@@ -26,6 +26,13 @@ class BloodPackRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'donor_id' => ['required', 'exists:donors,id'],
+            'arrived_at' => ['required', 'date', 'before:expiry_date'],
+            'expiry_at' => ['required', 'date'],
+            'blood_type' => ['required', 'in:WB,PRBC,SWRBC,SDPS,FFP,PC,SDP,PRB,CT,OTH'],
+            'rbc_count' => ['required', 'integer', 'min:0'],
+            'wbc_count' => ['required', 'integer', 'min:0'],
+            'haemo_level' => ['required', 'integer', 'min:0'],
         ];
     }
 
