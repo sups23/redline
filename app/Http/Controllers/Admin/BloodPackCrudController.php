@@ -39,15 +39,13 @@ class BloodPackCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('user_id');
+        CRUD::column('donor');
         CRUD::column('arrived_at');
         CRUD::column('expiry_at');
         CRUD::column('blood_type');
         CRUD::column('rbc_count')->label('RBC Count');
         CRUD::column('wbc_count')->label('WBC Count');
         CRUD::column('haemo_level')->label('Hemoglobin Level');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -70,16 +68,17 @@ class BloodPackCrudController extends CrudController
             'label'     => "Donor",
             'type'      => 'select',
             'name'      => 'donor_id', // the db column for the foreign key
-         
+
             // optional
             // 'entity' should point to the method that defines the relationship in your Model
             // defining entity will make Backpack guess 'model' and 'attribute'
             'entity'    => 'donor',
-         
+
             // optional - manually specify the related model and attribute
             'model'     => "App\Models\Donor", // related model
             'attribute' => 'name', // foreign key attribute that is shown to user
-         ],);
+        ],);
+
         CRUD::field('arrived_at');
         CRUD::field('expiry_at');
         CRUD::addField([   // select_from_array
