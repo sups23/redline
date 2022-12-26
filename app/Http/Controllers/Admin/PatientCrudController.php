@@ -39,6 +39,7 @@ class PatientCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::column('name');
         CRUD::column('blood_group');
         CRUD::column('contact');
         CRUD::column('age');
@@ -67,6 +68,7 @@ class PatientCrudController extends CrudController
     {
         CRUD::setValidation(PatientRequest::class);
 
+        CRUD::field('name');
         CRUD::field('blood_group');
         CRUD::field('contact');
         CRUD::field('age');
