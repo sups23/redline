@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('blood_packs', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id');
+            $table->foreignId('patient_id');
             $table->date('arrived_at');
             $table->date('expiry_at');
             $table->enum('blood_type', ['WB', 'PRBC', 'SWRBC', 'SDPS', 'FFP', 'PC', 'SDP', 'PRB', 'CR', 'OTH']);
