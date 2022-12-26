@@ -41,6 +41,7 @@ class PatientCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('blood_group');
+        CRUD::column('address');
         CRUD::column('contact');
         CRUD::column('age');
         CRUD::column('gender');
@@ -70,6 +71,7 @@ class PatientCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('blood_group');
+        CRUD::field('address');
         CRUD::field('contact');
         CRUD::field('age');
         CRUD::field('gender');
