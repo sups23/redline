@@ -82,10 +82,20 @@ class BloodPackCrudController extends CrudController
          ],);
         CRUD::field('arrived_at');
         CRUD::field('expiry_at');
-        CRUD::field('blood_type');
-        CRUD::field('rbc_count');
-        CRUD::field('wbc_count');
-        CRUD::field('haemo_level');
+        CRUD::addField([   // select_from_array
+            'name'        => 'blood_type',
+            'label'       => "Blood Type",
+            'type'        => 'select_from_array',
+            'options'     => [
+                'WB', 'PRBC', 'SWRBC', 'SDPS', 'FFP', 'PC', 'SDP', 'PRB', 'CR', 'OTH'
+            ],
+            'allows_null' => false,
+            'default'     => 'one',
+            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        ],);
+        CRUD::field('rbc_count')->label('RBC Count');
+        CRUD::field('wbc_count')->label('WBC Count');
+        CRUD::field('haemo_level')->label('Hemoglobin Level');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
