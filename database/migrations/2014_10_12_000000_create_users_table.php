@@ -16,15 +16,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            $table->enum('blood_group', ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-']);
-            $table->string('contact');
-            $table->string('age');
-            $table->enum('gender', ['male', 'female']);
-            $table->enum('donation_interval', ['3 months', '6 months', '1 year', 'irregular']);
+            $table->enum('blood_group', ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'])->nullable();
+            $table->string('contact')->nullable();
+            $table->string('age')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->enum('donation_interval', ['3 months', '6 months', '1 year', 'irregular'])->nullable();
+            $table->integer('donation_count')->nullable();
             $table->timestamp('last_donation_at')->nullable();
             $table->text('description')->nullable();
 

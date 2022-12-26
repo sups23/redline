@@ -15,15 +15,10 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $user = new \App\Models\User;
+        
         $user->name = 'admin';
-        $user->email = 'admin@admin.com';
-        $user->blood_group = 'A+';
-        $user->contact = '9811111111';
-        $user->age = '30';
-        $user->gender = 'male';
-        $user->donation_interval = 'irregular';
-        $user->last_donation_at = '2022-12-26';
-        $user->description = 'Admin user';
+        $user->email = 'admin@redline.com';
+        $user->password = bcrypt('password');
 
         $user->assignRole('Admin');
         $user->save();
