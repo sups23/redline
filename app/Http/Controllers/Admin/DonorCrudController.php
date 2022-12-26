@@ -49,8 +49,8 @@ class DonorCrudController extends CrudController
         CRUD::column('donation_count');
         CRUD::column('last_donation_at');
         CRUD::column('description');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        // CRUD::column('created_at');
+        // CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -70,12 +70,29 @@ class DonorCrudController extends CrudController
         CRUD::setValidation(DonorRequest::class);
 
         CRUD::field('name');
-        CRUD::field('blood_group');
+        CRUD::addfield([  
+            'name'=> 'blood_type',
+            'type'        => 'select_from_array',
+            'options'     => ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+            'allows_null' => false,
+            'default'     => 'one',
+            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        ]);
         CRUD::field('contact');
         CRUD::field('address');
         CRUD::field('age');
-        CRUD::field('gender');
-        CRUD::field('donation_interval');
+        CRUD::addField([
+            'name'=>'gender',
+            'type'=>'select_from_array',
+            'options'=>['male', 'female'],
+            'allows_null'=>true,
+        ]);
+        CRUD::addField([
+            'name'=>'donation_interval',
+            'type'=>'select_from_array',
+            'options'=>['3 months', '6 months', '1 year', 'irregular'],
+            'allows_null'=>true,
+        ]);
         CRUD::field('donation_count');
         CRUD::field('last_donation_at');
         CRUD::field('description');
