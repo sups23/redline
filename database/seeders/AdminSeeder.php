@@ -15,7 +15,6 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $user = new \App\Models\User;
-        $user->role = 'admin';
         $user->name = 'admin';
         $user->email = 'admin@admin.com';
         $user->blood_group = 'A+';
@@ -25,6 +24,8 @@ class AdminSeeder extends Seeder
         $user->donation_interval = 'irregular';
         $user->last_donation_at = '2022-12-26';
         $user->description = 'Admin user';
+
+        $user->assignRole('Admin');
         $user->save();
     }
 }
