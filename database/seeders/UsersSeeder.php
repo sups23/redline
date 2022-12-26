@@ -41,6 +41,5 @@ class UsersSeeder extends Seeder
         $user->password = bcrypt('password');
         $user->assignRole('Staff');
         $user->save();
-
     }
 }
