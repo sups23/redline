@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use DateInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,15 +17,15 @@ class BloodPackFactory extends Factory
      */
     public function definition()
     {   
-        $arrived_at = fake()->dateTimeBetween('-8 months', 'now');
+        $arrived_at = fake()->dateTimeThisYear;
         return [
             'donor_id' => fake()->numberBetween(1,200),
-            'arrived_at' => $arrived_at,
-            'expiry_at' => $arrived_at->modify('+35 days'),
+            'arrived_at' => $arrived_at->format('Y-m-d'),
+            'expiry_at' => $arrived_at->add(new DateInterval('P35D'))->format('Y-m-d'),
             'blood_type' => fake()->randomElement(['WB', 'PRBC', 'SWRBC', 'SDPS', 'FFP', 'PC', 'SDP', 'PRB', 'CR', 'OTH']),
             'rbc_count' => fake()->numberBetween(35, 60),
             'wbc_count' => fake()->numberBetween(45, 110),
-            'haemo_level' => fake()->numberBetween(138, 172)
+            'haemo_level' => fake()->numberBetween(120, 172)
         ];
     }
 }

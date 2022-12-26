@@ -43,9 +43,15 @@ class BloodPackCrudController extends CrudController
         CRUD::column('arrived_at');
         CRUD::column('expiry_at');
         CRUD::column('blood_type');
-        CRUD::column('rbc_count')->label('RBC Count');
-        CRUD::column('wbc_count')->label('WBC Count');
-        CRUD::column('haemo_level')->label('Hemoglobin Level');
+        CRUD::column('rbc_count')->label('RBC Count')->value(function($v) {
+            return number_format($v->rbc_count/10, 3) . ' x 10^12L';
+        });
+        CRUD::column('wbc_count')->label('WBC Count')->value(function($v) {
+            return number_format($v->wbc_count/10, 3) . ' x 10^9L';
+        });
+        CRUD::column('haemo_level')->label('Hemoglobin Level')->value(function($v) {
+            return number_format($v->haemo_level/10, 3) . ' g/L';
+        });
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
