@@ -34,6 +34,9 @@ class BloodPack extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function donor() {
+        return $this->belongsTo(Donor::class);
+    }
 
     /*
     |--------------------------------------------------------------------------
