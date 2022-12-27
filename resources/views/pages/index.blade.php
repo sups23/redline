@@ -17,8 +17,8 @@
                 </button>
             </div>
         </div>
-        <div class="md:w-1/2">
-            <img src="/assets/images/bd5.jpg" class="img-contain" alt="">
+        <div>
+            
         </div>    
 
     </div>
