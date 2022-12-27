@@ -11,22 +11,22 @@ class PageController extends Controller
     }
 
     public function events(){
-        return view('pages.index');
+        return view('pages.events');
     }
 
     public function donate(){
-        return view('pages.index');
+        return view('pages.donate');
     }
 
     public function why_donate(){
-        return view('pages.why-donate');
+        return view('pages.why_donate');
     }
 
     public function about(){
-        return view('pages.index');
+        return view('pages.about');
     }
 
     public function donate_form(){
-        return view('pages.form');
+        return view('pages.donate_form');
     }
 }

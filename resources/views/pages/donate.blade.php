@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title','Events')
+@section('title','Donate')
 
 @section('content')
     <h1>Donate Page</h1>
