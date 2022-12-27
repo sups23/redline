@@ -24,7 +24,6 @@ class DonorFactory extends Factory
             'age' => fake()->numberBetween(16, 60),
             'gender' => fake()->randomElement(['male', 'female']),
             'donation_interval' => fake()->randomElement(['3 months', '6 months', '1 year', 'irregular']),
-            'donation_count' => fake()->numberBetween(1, 200),
             'last_donation_at' => fake()->dateTimeBetween('-3 years', 'now'),
             'description' => fake()->realText(300),
         ];

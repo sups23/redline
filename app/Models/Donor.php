@@ -29,7 +29,16 @@ class Donor extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public static function updateDonationCounts()
+    {
+        $donors = Donor::all();
 
+        foreach ($donors as $donor) {
+            $donor->update([
+                'donation_count' => BloodPack::where('donor_id', $donor->id)->count()
+            ]);
+        }
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

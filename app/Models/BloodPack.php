@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BloodPack extends Model
 {
-    use CrudTrait;
+    use CrudTrait, HasFactory;
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +35,9 @@ class BloodPack extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function donor() {
+        return $this->belongsTo(Donor::class);
+    }
 
     /*
     |--------------------------------------------------------------------------

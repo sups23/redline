@@ -26,6 +26,16 @@ class DonorRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'name' => ['required', 'string', 'min:2'],
+            'blood_group' => ['required', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-'],
+            'contact' => ['required', 'string', 'size:10'],
+            'address' => ['required', 'string'],
+            'age' => ['required', 'integer', 'min:0'],
+            'gender' => ['required', 'in:male,female'],
+            'donation_interval' => ['required', 'in:3 months,6 months,1 year,irregular'],
+            'donation_count' => ['required', 'integer', 'min:0'],
+            'last_donation_at' => ['required', 'date'],
+            'description' => ['required', 'string'],
         ];
     }
 
