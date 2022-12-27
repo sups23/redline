@@ -78,18 +78,80 @@ class BloodPackCrudController extends CrudController
             'label' => 'Type of Blood'
         ], function () {
             return [
-                'A+' => 'A+',
-                'B+' => 'B+',
-                'O+' => 'O+',
-                'AB+' => 'AB+',
-                'A-' => 'A-',
-                'B-' => 'B-',
-                'O-' => 'O-',
-                'AB-' => 'AB-'
+                'WB' => 'Whole Blood',
+                'PRBC' => 'Packed Red Blood Cell',
+                'SWRBC' => 'Washed Red Cell',
+                'SDPS' => 'Single Donor Platelets',
+                'FFP' => 'Fresh Frozen Plasma',
+                'PC' => 'Platelet Concentrate',
+                'SDP' => 'Single Donor Plasma',
+                'PRB' => 'Platelet Rich Blood',
+                'CR' => 'Cryoprecipitate',
+                'OTH' => 'Others'
             ];
         }, function ($values) { // if the filter is active
             $this->crud->addClause('whereIn', 'blood_type', json_decode($values));
         });
+
+        $this->crud->addFilter(
+            [
+                'name'       => 'rbc_count',
+                'type'       => 'range',
+                'label'      => 'RBC Count (x10^12/L)',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'rbc_count', '>=', (float) $range->from * 10);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'rbc_count', '<=', (float) $range->to * 10);
+                }
+            }
+        );
+
+        $this->crud->addFilter(
+            [
+                'name'       => 'wbc_count',
+                'type'       => 'range',
+                'label'      => 'WBC Count (x10^9/L)',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'wbc_count', '>=', (float) $range->from * 10);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'wbc_count', '<=', (float) $range->to * 10);
+                }
+            }
+        );
+
+        $this->crud->addFilter(
+            [
+                'name'       => 'haemo_level',
+                'type'       => 'range',
+                'label'      => 'Hemoglobin Level (g/L)',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'haemo_level', '>=', (float) $range->from * 10);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'haemo_level', '<=', (float) $range->to * 10);
+                }
+            }
+        );
     }
 
     /**
@@ -100,19 +162,19 @@ class BloodPackCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->column('donor');
-        $this->crud->column('arrived_at');
-        $this->crud->column('expiry_at');
-        $this->crud->column('blood_type');
+        $this->crud->column('donor_id')->searchLogic(true);
+        $this->crud->column('arrived_at')->searchLogic(false);
+        $this->crud->column('expiry_at')->searchLogic(false);
+        $this->crud->column('blood_type')->searchLogic(false);
         $this->crud->column('rbc_count')->label('RBC Count')->value(function ($v) {
-            return number_format($v->rbc_count / 10, 3) . ' x 10^12L';
-        });
+            return number_format($v->rbc_count / 10, 1) . ' x 10^12/L';
+        })->searchLogic(false);
         $this->crud->column('wbc_count')->label('WBC Count')->value(function ($v) {
-            return number_format($v->wbc_count / 10, 3) . ' x 10^9L';
-        });
+            return number_format($v->wbc_count / 10, 1) . ' x 10^9/L';
+        })->searchLogic(false);
         $this->crud->column('haemo_level')->label('Hemoglobin Level')->value(function ($v) {
-            return number_format($v->haemo_level / 10, 3) . ' g/L';
-        });
+            return number_format($v->haemo_level / 10, 1) . ' g/L';
+        })->searchLogic(false);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
