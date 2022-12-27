@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,28 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.index');
-});
-
-Route::get('/events', function () {
-    return view('pages.events');
-});
-
-Route::get('/donate', function () {
-    return view('pages.donate');
-});
-
-Route::get('/about', function () {
-    return view('pages.about');
-});
-
-Route::get('/donate-form', function () {
-    return view('pages.donate_form');
-});
-
-
-
+Route::get('/', [PageController::class, 'index'])->name('pages.index');
+Route::get('/events', [PageController::class, 'events'])->name('pages.events');
+Route::get('/donate', [PageController::class, 'donate'])->name('pages.donate');
+Route::get('/why_donate', [PageController::class, 'why_donate'])->name('pages.why_donate');
+Route::get('/donate_form', [PageController::class, 'donate_form'])->name('pages.donate_form');
+Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
