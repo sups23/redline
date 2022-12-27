@@ -3,7 +3,7 @@
     <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a href="{{ route('pages.index') }}" class="flex items-center">
             <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo">
-            <span class="self-center text-xl font-semibold whitespace-nowrap text-red-400">RedLine</span>
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-dark-400">RedLine</span>
         </a>
         <div class="flex md:order-2">
             <button type="button"
@@ -41,6 +41,15 @@
                     <a href="{{ route('pages.about') }}"
                         class="block py-2 pl-3 pr-4 {{ Route::currentRouteName() == 'pages.about' ? 'text-red-500' : 'text-gray-700' }} rounded hover:bg-gray-100 md:hover:bg-transparent">About
                         us</a>
+                </li>
+                <li>
+                    <button class="inline-block relative">
+                        <a href="#" class="block py-2 pl-3">
+                            <p style="color:#cf3d3c"><u>Live Update
+                        <span class="animate-ping absolute top-1 right-0.5 block h-1 w-1 rounded-full ring-2 ring-red-400 bg-red-600"></span>    
+                    </u></p>
+                        </a>
+                    </button>                    
                 </li>
             </ul>
         </div>
