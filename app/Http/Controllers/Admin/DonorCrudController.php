@@ -26,9 +26,59 @@ class DonorCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Donor::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/donor');
-        CRUD::setEntityNameStrings('donor', 'donors');
+        $this->crud->setModel(\App\Models\Donor::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/donor');
+        $this->crud->setEntityNameStrings('donor', 'donors');
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'blood_group',
+            'type' => 'select2_multiple',
+            'label' => 'Blood Group'
+        ], function () {
+            return [
+                'A+' => 'A+',
+                'B+' => 'B+',
+                'O+' => 'O+',
+                'AB+' => 'AB+',
+                'A-' => 'A-',
+                'B-' => 'B-',
+                'O-' => 'O-',
+                'AB-' => 'AB-'
+            ];
+        }, function ($values) { // if the filter is active
+            $this->crud->addClause('whereIn', 'blood_group', json_decode($values));
+        });
+
+        $this->crud->addFilter([
+            'name'       => 'age',
+            'type'       => 'range',
+            'label'      => 'Age',
+            'label_from' => 'min value',
+            'label_to'   => 'max value'
+          ],
+          false,
+          function($value) { // if the filter is active
+              $range = json_decode($value);
+              if ($range->from) {
+                  $this->crud->addClause('where', 'age', '>=', (float) $range->from);
+              }
+              if ($range->to) {
+                  $this->crud->addClause('where', 'age', '<=', (float) $range->to);
+              }
+          });
+
+          $this->crud->addFilter([ // select2 filter
+            'name' => 'gendere',
+            'type' => 'dropdown',
+            'label' => 'Gender'
+        ], function () {
+            return [
+                'male' => 'Male',
+                'female' => 'Female'
+            ];
+        }, function ($value) { // if the filter is active
+            $this->crud->addClause('where', 'gender', $value);
+        });
     }
 
     /**
@@ -39,23 +89,23 @@ class DonorCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
-        CRUD::column('blood_group');
-        CRUD::column('contact');
-        CRUD::column('address');
-        CRUD::column('age');
-        CRUD::column('gender');
-        CRUD::column('donation_interval');
-        CRUD::column('donation_count');
-        CRUD::column('last_donation_at');
-        CRUD::column('description');
-        // CRUD::column('created_at');
-        // CRUD::column('updated_at');
+        $this->crud->column('name');
+        $this->crud->column('blood_group');
+        $this->crud->column('contact');
+        $this->crud->column('address');
+        $this->crud->column('age');
+        $this->crud->column('gender');
+        $this->crud->column('donation_interval');
+        $this->crud->column('donation_count');
+        $this->crud->column('last_donation_at');
+        $this->crud->column('description');
+        // $this->crud->column('created_at');
+        // $this->crud->column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']); 
          */
     }
 
@@ -67,40 +117,40 @@ class DonorCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(DonorRequest::class);
+        $this->crud->setValidation(DonorRequest::class);
 
-        CRUD::field('name');
-        CRUD::addfield([  
-            'name'=> 'blood_type',
+        $this->crud->field('name');
+        $this->crud->addfield([
+            'name' => 'blood_type',
             'type'        => 'select_from_array',
             'options'     => ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
             'allows_null' => false,
             'default'     => 'one',
             // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
         ]);
-        CRUD::field('contact');
-        CRUD::field('address');
-        CRUD::field('age');
-        CRUD::addField([
-            'name'=>'gender',
-            'type'=>'select_from_array',
-            'options'=>['male', 'female'],
-            'allows_null'=>true,
+        $this->crud->field('contact');
+        $this->crud->field('address');
+        $this->crud->field('age');
+        $this->crud->addField([
+            'name' => 'gender',
+            'type' => 'select_from_array',
+            'options' => ['male', 'female'],
+            'allows_null' => true,
         ]);
-        CRUD::addField([
-            'name'=>'donation_interval',
-            'type'=>'select_from_array',
-            'options'=>['3 months', '6 months', '1 year', 'irregular'],
-            'allows_null'=>true,
+        $this->crud->addField([
+            'name' => 'donation_interval',
+            'type' => 'select_from_array',
+            'options' => ['3 months', '6 months', '1 year', 'irregular'],
+            'allows_null' => true,
         ]);
-        CRUD::field('donation_count');
-        CRUD::field('last_donation_at');
-        CRUD::field('description');
+        $this->crud->field('donation_count');
+        $this->crud->field('last_donation_at');
+        $this->crud->field('description');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number'])); 
          */
     }
 
