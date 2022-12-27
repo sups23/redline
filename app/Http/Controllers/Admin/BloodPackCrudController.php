@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Library\Widget;
 use App\Http\Requests\BloodPackRequest;
+use App\Models\Donor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -30,6 +31,65 @@ class BloodPackCrudController extends CrudController
         $this->crud->setModel(\App\Models\BloodPack::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/blood-pack');
         $this->crud->setEntityNameStrings('blood pack', 'blood packs');
+
+        $this->crud->addFilter([
+            'name' => 'donor_id',
+            'type' => 'select2',
+            'label' => 'Donor',
+            'model' => Donor::class,
+            'attribute' => 'name',
+        ], function() {
+            return Donor::all()->pluck('name', 'id')->toArray();
+        }, function($value) {
+            $this->crud->addClause('where', 'donor_id', $value);
+        });
+
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'arrived_at',
+                'label' => 'Arrival Date'
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'arrived_at', '>=', $dates->from);
+                $this->crud->addClause('where', 'arrived_at', '<=', $dates->to . ' 23:59:59');
+            }
+        );
+
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'expiry_at',
+                'label' => 'Expiry Date'
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'expiry_at', '>=', $dates->from);
+                $this->crud->addClause('where', 'expiry_at', '<=', $dates->to . ' 23:59:59');
+            }
+        );
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'blood_type',
+            'type' => 'select2_multiple',
+            'label' => 'Type of Blood'
+        ], function () {
+            return [
+                'A+' => 'A+',
+                'B+' => 'B+',
+                'O+' => 'O+',
+                'AB+' => 'AB+',
+                'A-' => 'A-',
+                'B-' => 'B-',
+                'O-' => 'O-',
+                'AB-' => 'AB-'
+            ];
+        }, function ($values) { // if the filter is active
+            $this->crud->addClause('whereIn', 'blood_type', json_decode($values));
+        });
     }
 
     /**
