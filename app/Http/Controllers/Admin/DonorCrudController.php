@@ -49,25 +49,27 @@ class DonorCrudController extends CrudController
             $this->crud->addClause('whereIn', 'blood_group', json_decode($values));
         });
 
-        $this->crud->addFilter([
-            'name'       => 'age',
-            'type'       => 'range',
-            'label'      => 'Age',
-            'label_from' => 'min value',
-            'label_to'   => 'max value'
-          ],
-          false,
-          function($value) { // if the filter is active
-              $range = json_decode($value);
-              if ($range->from) {
-                  $this->crud->addClause('where', 'age', '>=', (float) $range->from);
-              }
-              if ($range->to) {
-                  $this->crud->addClause('where', 'age', '<=', (float) $range->to);
-              }
-          });
+        $this->crud->addFilter(
+            [
+                'name'       => 'age',
+                'type'       => 'range',
+                'label'      => 'Age',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'age', '>=', (float) $range->from);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'age', '<=', (float) $range->to);
+                }
+            }
+        );
 
-          $this->crud->addFilter([ // select2 filter
+        $this->crud->addFilter([ // select2 filter
             'name' => 'gendere',
             'type' => 'dropdown',
             'label' => 'Gender'
@@ -79,6 +81,56 @@ class DonorCrudController extends CrudController
         }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'gender', $value);
         });
+
+        // daterange filter
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'last_donation_at',
+                'label' => 'Last donation'
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'last_donation_at', '>=', $dates->from);
+                $this->crud->addClause('where', 'last_donation_at', '<=', $dates->to . ' 23:59:59');
+            }
+        );
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'donation_interval',
+            'type' => 'dropdown',
+            'label' => 'Donation Interval'
+        ], function () {
+            return [
+                '3 months' => '3 Months',
+                '6 months' => '6 Months',
+                '1 year' => '1 Year',
+                'irregular' => 'Irregular'
+            ];
+        }, function ($value) { // if the filter is active
+            $this->crud->addClause('where', 'donation_interval', $value);
+        });
+
+        $this->crud->addFilter(
+            [
+                'name'       => 'donation_count',
+                'type'       => 'range',
+                'label'      => 'Donation count',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'donation_count', '>=', (float) $range->from);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'donation_count', '<=', (float) $range->to);
+                }
+            }
+        );
     }
 
     /**
@@ -90,14 +142,14 @@ class DonorCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('name');
-        $this->crud->column('blood_group');
+        $this->crud->column('blood_group')->searchLogic(false);
         $this->crud->column('contact');
         $this->crud->column('address');
-        $this->crud->column('age');
-        $this->crud->column('gender');
-        $this->crud->column('donation_interval');
-        $this->crud->column('donation_count');
-        $this->crud->column('last_donation_at');
+        $this->crud->column('age')->searchLogic(false);
+        $this->crud->column('gender')->searchLogic(false)->value(function($v) { return ucfirst($v->gender); });
+        $this->crud->column('donation_interval')->searchLogic(false);
+        $this->crud->column('donation_count')->searchLogic(false);
+        $this->crud->column('last_donation_at')->searchLogic(false);
         $this->crud->column('description');
         // $this->crud->column('created_at');
         // $this->crud->column('updated_at');
@@ -140,7 +192,12 @@ class DonorCrudController extends CrudController
         $this->crud->addField([
             'name' => 'donation_interval',
             'type' => 'select_from_array',
-            'options' => ['3 months', '6 months', '1 year', 'irregular'],
+            'options' => [
+                '3 months' => '3 Months',
+                '6 months' => '6 Months',
+                '1 year' => '1 Year',
+                'irregular' => 'Irregular'
+            ],
             'allows_null' => true,
         ]);
         $this->crud->field('donation_count');
