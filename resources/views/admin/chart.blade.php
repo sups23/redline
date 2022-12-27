@@ -12,6 +12,9 @@
                         <h1>{{ $chart1->options['chart_title'] }}</h1>
                         {!! $chart1->renderHtml() !!}
 
+                        <h1>{{ $chart2->options['chart_title'] }}</h1>
+                        {!! $chart2->renderHtml() !!}
+
                     </div>
 
                 </div>
@@ -23,4 +26,5 @@
 @section('after_content_widgets')
     {!! $chart1->renderChartJsLibrary() !!}
     {!! $chart1->renderJs() !!}
+    {!! $chart2->renderJs() !!}
 @endsection
