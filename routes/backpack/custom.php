@@ -18,4 +18,5 @@ Route::group([
 ], function () { // custom admin routes
     Route::crud('blood-pack', 'BloodPackCrudController');
     Route::crud('donor', 'DonorCrudController');
+    Route::crud('event', 'EventCrudController');
 }); // this should be the absolute last line of this file

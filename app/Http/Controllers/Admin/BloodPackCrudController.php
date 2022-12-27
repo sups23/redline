@@ -163,6 +163,7 @@ class BloodPackCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('donor_id')->searchLogic(true);
+        $this->crud->column('event_id')->searchLogic(true);
         $this->crud->column('arrived_at')->searchLogic(false);
         $this->crud->column('expiry_at')->searchLogic(false);
         $this->crud->column('blood_type')->searchLogic(false);
