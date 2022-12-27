@@ -19,5 +19,5 @@ Route::group([
     Route::crud('blood-pack', 'BloodPackCrudController');
     Route::crud('donor', 'DonorCrudController');
     Route::crud('event', 'EventCrudController');
-    Route::get('charts/donors-chart', 'Charts\DonorsChartChartController@response')->name('charts.donors-chart.index');
+    Route::get('charts', 'ChartController@index');
 }); // this should be the absolute last line of this file
