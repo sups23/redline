@@ -11,7 +11,7 @@
 <body>
     
         @include('layouts.navbar')
-        <div style="height: 1500px; margin-top:100px"> 
+        <div style="height: 1200px; margin-top:100px"> 
             @yield('content')
         </div>
         <hr>
