@@ -8,12 +8,14 @@
         "php": "^8.0.2",
         "backpack/crud": "^5.4",
         "backpack/permissionmanager": "^6.0",
+        "consoletvs/charts": "6.*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/breeze": "^1.16",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "laravel/ui": "^4.1"
+        "laravel/ui": "^4.1",
+        "laraveldaily/laravel-charts": "^0.1.29"
     },
     "require-dev": {
         "backpack/generators": "^3.3",
