@@ -15,8 +15,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.index');
 });
+
+Route::get('/events', function () {
+    return view('pages.events');
+});
+
+Route::get('/donate', function () {
+    return view('pages.donate');
+});
+
+Route::get('/about', function () {
+    return view('pages.about');
+});
+
+Route::get('/donate-form', function () {
+    return view('pages.donate_form');
+});
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

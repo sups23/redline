@@ -69,7 +69,24 @@ class BloodPackCrudController extends CrudController
         CRUD::field('user_id');
         CRUD::field('arrived_at');
         CRUD::field('expiry_at');
-        CRUD::field('blood_type');
+        CRUD::addField([
+            'name'  => 'blood_type',
+            'type'  => 'select_from_array',
+            'options'=> [
+                'WB'=>'Whole Blood', 
+                'PRBC'=>'Packed Red Blood Cell', 
+                'SWRBC'=>'Washed Red Cell', 
+                'SDPS'=>'Single Donor Platelets', 
+                'FFP'=>'Fresh Frozen Plasma', 
+                'PC'=>'Platelet Concentrate',
+                'SDP'=>'Single Donor Plasma', 
+                'PRB'=>'Platelet Rich Blood', 
+                'CR'=>'Cryoprecipitate', 
+                'OTH'=>'Others'
+            ],
+            'allows_null'=>false,
+            'default'=>'WB',
+        ]);
         CRUD::field('rbc_count');
         CRUD::field('wbc_count');
         CRUD::field('haemo_level');
