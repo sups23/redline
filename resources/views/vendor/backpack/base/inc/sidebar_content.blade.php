@@ -12,6 +12,5 @@
     </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('blood-pack') }}"><i class="nav-icon la la-tint"></i> Blood packs</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('blood-pack') }}"><i class="nav-icon la la-tint"></i> Blood packs</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('donor') }}"><i class="nav-icon las la-hand-holding-heart"></i> Donors</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-bell"></i> Events</a></li>
