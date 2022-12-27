@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BloodPack extends Model
+class Event extends Model
 {
     use CrudTrait, HasFactory;
 
@@ -16,7 +16,7 @@ class BloodPack extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'blood_packs';
+    protected $table = 'events';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -35,13 +35,7 @@ class BloodPack extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function donor() {
-        return $this->belongsTo(Donor::class);
-    }
 
-    public function event() {
-        return $this->belongsTo(Event::class);
-    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

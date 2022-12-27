@@ -20,6 +20,7 @@ class BloodPackFactory extends Factory
         $arrived_at = fake()->dateTimeThisYear;
         return [
             'donor_id' => fake()->numberBetween(1,200),
+            'event_id' => fake()->numberBetween(1,200),
             'arrived_at' => $arrived_at->format('Y-m-d'),
             'expiry_at' => $arrived_at->add(new DateInterval('P35D'))->format('Y-m-d'),
             'blood_type' => fake()->randomElement(['WB', 'PRBC', 'SWRBC', 'SDPS', 'FFP', 'PC', 'SDP', 'PRB', 'CR', 'OTH']),
