@@ -38,10 +38,30 @@ class BloodPackCrudController extends CrudController
             'label' => 'Donor',
             'model' => Donor::class,
             'attribute' => 'name',
-        ], function() {
+        ], function () {
             return Donor::all()->pluck('name', 'id')->toArray();
-        }, function($value) {
+        }, function ($value) {
             $this->crud->addClause('where', 'donor_id', $value);
+        });
+
+        $this->crud->addFilter([
+            'name' => 'donor_bg',
+            'type' => 'dropdown',
+            'label' => 'Blood Group',
+            'scope' => 'withBloodGroup',
+        ], function () {
+            return [
+                'A+' => 'A+',
+                'B+' => 'B+',
+                'O+' => 'O+',
+                'AB+' => 'AB+',
+                'A-' => 'A-',
+                'B-' => 'B-',
+                'O-' => 'O-',
+                'AB-' => 'AB-'
+            ];
+        }, function ($value) {
+            $this->crud->query = $this->crud->query->withBloodGroup($value);
         });
 
         $this->crud->addFilter(
@@ -163,6 +183,7 @@ class BloodPackCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('donor_id')->searchLogic(true);
+        $this->crud->column('donor.blood_group')->label('Blood Group')->searchLogic(false);
         $this->crud->column('event_id')->searchLogic(true);
         $this->crud->column('arrived_at')->searchLogic(false);
         $this->crud->column('expiry_at')->searchLogic(false);

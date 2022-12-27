@@ -13,8 +13,29 @@ class ChartController extends Controller
     {
         $bg_data = Donor::pluck('blood_group')->countBy();
         $donorsByBGChart = new DonorChart;
+        // $donorsByBGChart->minimalist(true);
         $donorsByBGChart->labels($bg_data->keys());
-        $donorsByBGChart->dataset('Donors by Blood Group', 'bar', $bg_data->values());
+        $donorsByBGChart->dataset('Donors by Blood Group', 'bar', $bg_data->values())
+            ->color([
+                'rgb(104, 151, 187)',
+                'rgb(89, 39, 79)',
+                'rgb(0, 128, 128)',
+                'rgb(255, 127, 80)',
+                'rgb(255, 219, 88)',
+                'rgb(178, 34, 34)',
+                'rgb(255, 182, 193)',
+                'rgb(0, 100, 0)',
+            ])
+            ->backgroundColor([
+                'rgb(104, 151, 187)',
+                'rgb(89, 39, 79)',
+                'rgb(0, 128, 128)',
+                'rgb(255, 127, 80)',
+                'rgb(255, 219, 88)',
+                'rgb(178, 34, 34)',
+                'rgb(255, 182, 193)',
+                'rgb(0, 100, 0)',
+            ]);
 
         $age_data = Donor::pluck('age')->groupBy(function ($item, $key) {
             if ($item < 15) {
@@ -40,8 +61,29 @@ class ChartController extends Controller
             return $group->count();
         });
         $donorsByAgeChart = new DonorChart;
+        // $donorsByAgeChart->minimalist(true);
         $donorsByAgeChart->labels($age_data->keys());
-        $donorsByAgeChart->dataset('Donors by Blood Group', 'pie', $age_data->values());
+        $donorsByAgeChart->dataset('Donors by Age Range', 'pie', $age_data->values())
+            ->color([
+                'rgb(104, 151, 187)',
+                'rgb(89, 39, 79)',
+                'rgb(0, 128, 128)',
+                'rgb(255, 127, 80)',
+                'rgb(255, 219, 88)',
+                'rgb(178, 34, 34)',
+                'rgb(255, 182, 193)',
+                'rgb(0, 100, 0)',
+            ])
+            ->backgroundColor([
+                'rgb(104, 151, 187)',
+                'rgb(89, 39, 79)',
+                'rgb(0, 128, 128)',
+                'rgb(255, 127, 80)',
+                'rgb(255, 219, 88)',
+                'rgb(178, 34, 34)',
+                'rgb(255, 182, 193)',
+                'rgb(0, 100, 0)',
+            ]);
 
         return view('admin.chart', [
             'donorsByBGChart' => $donorsByBGChart,

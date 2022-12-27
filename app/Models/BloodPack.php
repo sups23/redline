@@ -47,7 +47,10 @@ class BloodPack extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
-
+    public function scopeWithBloodGroup($query, $bg)
+    {
+        return $query->whereHas('donor', fn ($q) => $q->where('blood_group', '=', $bg));
+    }
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
