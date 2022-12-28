@@ -81,6 +81,8 @@ class ToBeDonorCrudController extends CrudController
         }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'gender', $value);
         });
+
+        $this->crud->denyAccess('create');
     }
 
     /**
