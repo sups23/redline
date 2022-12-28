@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('hospital_requests', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('contact');
             $table->integer('age');
             $table->enum('gender', ['male', 'female']);
             $table->string('form_image');

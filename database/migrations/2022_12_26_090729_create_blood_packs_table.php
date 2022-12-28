@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('rbc_count');
             $table->unsignedInteger('wbc_count');
             $table->unsignedInteger('haemo_level');
+            $table->boolean('is_reserved')->default(false);
 
             $table->timestamps();
         });

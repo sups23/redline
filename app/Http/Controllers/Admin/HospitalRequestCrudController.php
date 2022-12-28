@@ -108,6 +108,7 @@ class HospitalRequestCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('name');
+        $this->crud->column('contact');
         $this->crud->column('age');
         $this->crud->column('gender')->searchLogic(false)->value(function ($v) {
             return ucfirst($v->gender);
