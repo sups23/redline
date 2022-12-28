@@ -155,6 +155,7 @@ class DonorFactory extends Factory
             'donation_interval' => fake()->randomElement(['3 months', '6 months', '1 year', 'irregular']),
             'last_donation_at' => fake()->dateTimeBetween('-3 years', 'now'),
             'description' => fake()->realText(300),
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

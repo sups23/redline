@@ -72,13 +72,14 @@ class EventFactory extends Factory
             "Mercy Corps",
             "Action Against"
         ];
-        
+
         $event_at = fake()->dateTimeBetween('-3 years', '+6 months');
         return [
             'organizer_name' => fake()->randomElement($organizations),
             'address' => fake()->randomElement($cities),
             'event_at' => $event_at,
-            'donors_count' => $event_at < now() ? fake()->numberBetween(20,200) : null
+            'donors_count' => $event_at < now() ? fake()->numberBetween(20,200) : null,
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now')
         ];
     }
 }

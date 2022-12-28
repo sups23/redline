@@ -100,9 +100,65 @@
                 <!-- Content for the second column goes here -->
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title">Donors by Age Range</div>
+                        <div class="card-title">Event by Donors Count</div>
                         <div>
                             {!! $eventByDonorCountChart->container() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-3">
+        <h2 class="display-4">Hospital requests</h2>
+        <div class="row">
+            <div class="col-6">
+                <!-- Content for the first column goes here -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Hospital request count by Blood Group</div>
+                        <div>
+                            {!! $hrByBGChart->container() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <!-- Content for the second column goes here -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Hospital requests by blood needed at date</div>
+                        <div>
+                            {!! $hrBYBNOChart->container() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-3">
+        <h2 class="display-4">Supply and Demand</h2>
+        <div class="row">
+            <div class="col-6">
+                <!-- Content for the first column goes here -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">S/D by Blood Group</div>
+                        <div>
+                            {!! $supDemChart->container() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <!-- Content for the first column goes here -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">S/D by Trend</div>
+                        <div>
+                            {!! $supDemTrendChart->container() !!}
                         </div>
                     </div>
                 </div>
@@ -119,4 +175,8 @@
     {!! $bpByArrExpDateChart->script() !!}
     {!! $eventDateChart->script() !!}
     {!! $eventByDonorCountChart->script() !!}
+    {!! $hrByBGChart->script() !!}
+    {!! $hrBYBNOChart->script() !!}
+    {!! $supDemChart->script() !!}
+    {!! $supDemTrendChart->script() !!}
 @endsection

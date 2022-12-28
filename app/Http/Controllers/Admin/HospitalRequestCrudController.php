@@ -71,6 +71,19 @@ class HospitalRequestCrudController extends CrudController
             $this->crud->addClause('whereIn', 'blood_group', json_decode($values));
         });
 
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'gendere',
+            'type' => 'dropdown',
+            'label' => 'Gender'
+        ], function () {
+            return [
+                'male' => 'Male',
+                'female' => 'Female'
+            ];
+        }, function ($value) { // if the filter is active
+            $this->crud->addClause('where', 'gender', $value);
+        });
+
         $this->crud->addFilter(
             [
                 'type'  => 'date_range',
@@ -96,7 +109,9 @@ class HospitalRequestCrudController extends CrudController
     {
         $this->crud->column('name');
         $this->crud->column('age');
-        $this->crud->column('gender');
+        $this->crud->column('gender')->searchLogic(false)->value(function ($v) {
+            return ucfirst($v->gender);
+        });
         $this->crud->column('unit');
         $this->crud->column('form_image')->type('image');
         $this->crud->column('blood_group');

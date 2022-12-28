@@ -27,7 +27,8 @@ class BloodPackFactory extends Factory
             'unit' => fake()->numberBetween(1,5),
             'rbc_count' => fake()->numberBetween(35, 60),
             'wbc_count' => fake()->numberBetween(45, 110),
-            'haemo_level' => fake()->numberBetween(120, 172)
+            'haemo_level' => fake()->numberBetween(120, 172),
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

@@ -176,25 +176,31 @@ class ChartController extends Controller
                 'rgb(255, 105, 180)',
             ]);
 
-        $bp_exp_data = \App\Models\BloodPack::select('expiry_at')
-            ->where('expiry_at', '>=', Carbon::now()->startOfMonth())
-            ->get()
-            ->groupBy(function ($record) {
-                return Carbon::parse($record->expiry_at)->format('F');
-            })->map(function ($group) {
-                return $group->count();
-            });
-        $bp_arr_data = \App\Models\BloodPack::select('expiry_at')
-            ->where('arrived_at', '>=', Carbon::now()->startOfMonth())
-            ->get()
-            ->groupBy(function ($record) {
-                return Carbon::parse($record->arrived_at)->format('F');
-            })->map(function ($group) {
-                return $group->count();
-            });
+        $records = \App\Models\BloodPack::selectRaw('YEAR(expiry_at) year, MONTH(expiry_at) month, COUNT(*) count')
+            ->whereYear('expiry_at', '>=', Carbon::now()->subYear())
+            ->groupBy('year', 'month')
+            ->get();
+
+        $bp_exp_data = collect();
+
+        foreach ($records as $record) {
+            $bp_exp_data[$record->year . '/' . $record->month] = $record->count;
+        }
+        $records = \App\Models\BloodPack::selectRaw('YEAR(arrived_at) year, MONTH(arrived_at) month, COUNT(*) count')
+            ->whereYear('arrived_at', '>=', Carbon::now()->subYear())
+            ->groupBy('year', 'month')
+            ->get();
+
+        $bp_arr_data = collect();
+
+        foreach ($records as $record) {
+            $bp_arr_data[$record->year . '/' . $record->month] = $record->count;
+        }
+
         $bpByArrExpDateChart = new DonorChart;
         // $bpByArrExpDateChart->minimalist(true);
         $bpByArrExpDateChart->labels($bp_exp_data->keys());
+        $bpByArrExpDateChart->labels($bp_arr_data->keys());
         $bpByArrExpDateChart->dataset('Blood Group Expiry', 'line', $bp_exp_data->values())
             ->backgroundColor('rgba(255, 99, 132, 0.6)')
             ->color('rgb(255, 99, 132)');
@@ -226,7 +232,7 @@ class ChartController extends Controller
                 'rgb(139, 0, 139)', 'rgb(0, 188, 212)'
             ]);
 
-        $event_donor_data = \App\Models\Event::pluck('age')->groupBy(function ($item, $key) {
+        $event_donor_data = \App\Models\Event::pluck('donors_count')->groupBy(function ($item, $key) {
             if ($item < 50) {
                 return '0-50';
             } elseif ($item < 70) {
@@ -270,6 +276,129 @@ class ChartController extends Controller
                 'rgb(0, 100, 0)',
             ]);
 
+        $hr_bg_data = \App\Models\HospitalRequest::pluck('blood_group')->countBy();
+        $hrByBGChart = new DonorChart;
+        // $hrByBGChart->minimalist(true);
+        $hrByBGChart->labels($hr_bg_data->keys());
+        $hrByBGChart->dataset('Hospital Requests by Blood Group', 'pie', $hr_bg_data->values())
+            ->color([
+                'rgb(255, 99, 71)', // Tomato
+                'rgb(54, 162, 235)', // Dodger Blue
+                'rgb(255, 205, 86)', // Yellow
+                'rgb(75, 192, 192)', // Turquoise
+                'rgb(153, 102, 255)', // Purple
+                'rgb(201, 203, 207)', // Silver
+                'rgb(255, 159, 64)', // Orange
+                'rgb(233, 30, 99)', // Pink
+            ])
+            ->backgroundColor([
+                'rgb(255, 99, 71)', // Tomato
+                'rgb(54, 162, 235)', // Dodger Blue
+                'rgb(255, 205, 86)', // Yellow
+                'rgb(75, 192, 192)', // Turquoise
+                'rgb(153, 102, 255)', // Purple
+                'rgb(201, 203, 207)', // Silver
+                'rgb(255, 159, 64)', // Orange
+                'rgb(233, 30, 99)', // Pink
+            ]);
+
+        $records = \App\Models\HospitalRequest::selectRaw('YEAR(blood_needed_on) year, MONTH(blood_needed_on) month, COUNT(*) count')
+            ->whereYear('blood_needed_on', '>=', Carbon::now()->addYear())
+            ->groupBy('year', 'month')
+            ->get();
+
+        $hr_trend_data = collect();
+
+        foreach ($records as $record) {
+            $hr_trend_data[$record->year . '/' . $record->month] = $record->count;
+        }
+
+        $hrBYBNOChart = new DonorChart;
+        // $hrBYBNOChart->minimalist(true);
+        $hrBYBNOChart->labels($hr_trend_data->keys());
+        $hrBYBNOChart->dataset('Events', 'bar', $hr_trend_data->values())
+            ->label(function ($index, $data) {
+                $percentage = round($data / array_sum($data) * 100);
+                return "{$percentage}%";
+            })
+            ->backgroundColor([
+                'rgb(255, 99, 71)', // Tomato
+                'rgb(54, 162, 235)', // Dodger Blue
+                'rgb(255, 205, 86)', // Yellow
+                'rgb(75, 192, 192)', // Turquoise
+                'rgb(153, 102, 255)', // Purple
+                'rgb(201, 203, 207)', // Silver
+                'rgb(255, 159, 64)', // Orange
+                'rgb(233, 30, 99)', // Pink
+                'rgb(0, 188, 212)', // Light Blue
+                'rgb(221, 44, 0)', // Red
+                'rgb(0, 150, 136)', // Teal
+                'rgb(0, 0, 0)', // Black
+            ])
+            ->color([
+                'rgb(255, 99, 71)', // Tomato
+                'rgb(54, 162, 235)', // Dodger Blue
+                'rgb(255, 205, 86)', // Yellow
+                'rgb(75, 192, 192)', // Turquoise
+                'rgb(153, 102, 255)', // Purple
+                'rgb(201, 203, 207)', // Silver
+                'rgb(255, 159, 64)', // Orange
+                'rgb(233, 30, 99)', // Pink
+                'rgb(0, 188, 212)', // Light Blue
+                'rgb(221, 44, 0)', // Red
+                'rgb(0, 150, 136)', // Teal
+                'rgb(0, 0, 0)', // Black
+            ]);
+
+        $hr_units_data = \App\Models\HospitalRequest::all()
+            ->groupBy('blood_group')
+            ->map(fn ($gr) => $gr->sum('unit'));
+
+        $supDemChart = new DonorChart;
+        // $supDemChart->minimalist(true);
+        $supDemChart->labels($bp_units_data->keys());
+        $supDemChart->dataset('Supply', 'line', $bp_units_data->values())
+            ->backgroundColor('rgba(255, 99, 71, 0.6)')
+            ->color('rgb(255, 99, 71)');
+        $supDemChart->labels($hr_units_data->keys());
+        $supDemChart->dataset('Demand', 'line', $hr_units_data->values())
+            ->backgroundColor('rgba(75, 192, 192, 0.6)')
+            ->color('rgb(75, 192, 192)');
+
+        $records = \App\Models\HospitalRequest::selectRaw('YEAR(created_at) year, MONTH(created_at) month, COUNT(*) count')
+            ->whereYear('created_at', '>=', Carbon::now()->subYear())
+            ->groupBy('year', 'month')
+            ->get();
+
+        $hr_trend_data = collect();
+
+        foreach ($records as $record) {
+            $hr_needed_on_data[$record->year . '/' . $record->month] = $record->count;
+        }
+
+        $records = \App\Models\BloodPack::selectRaw('YEAR(created_at) year, MONTH(created_at) month, COUNT(*) count')
+            ->whereYear('created_at', '>=', Carbon::now()->subYear())
+            ->groupBy('year', 'month')
+            ->get();
+
+        $bp_trend_data = collect();
+
+        foreach ($records as $record) {
+            $bp_trend_data[$record->year . '/' . $record->month] = $record->count;
+        }
+
+        dd($bp_trend_data, $hr_trend_data);
+        $supDemTrendChart = new DonorChart;
+        // $supDemTrendChart->minimalist(true);
+        $supDemTrendChart->labels($bp_trend_data->keys());
+        $supDemTrendChart->dataset('Supply', 'line', $bp_trend_data->values())
+            ->backgroundColor('rgba(0, 150, 136, 0.6)')
+            ->color('rgb(0, 150, 136)');
+        $supDemTrendChart->labels($hr_trend_data->keys());
+        $supDemTrendChart->dataset('Demand', 'line', $hr_trend_data->values())
+            ->backgroundColor('rgba(153, 102, 255, 0.6)')
+            ->color('rgb(153, 102, 255)');
+
         return view('admin.chart', [
             'donorsByBGChart' => $donorsByBGChart,
             'donorsByAgeChart' => $donorsByAgeChart,
@@ -278,7 +407,11 @@ class ChartController extends Controller
             'bpByTypeChart' => $bpByTypeChart,
             'bpByArrExpDateChart' => $bpByArrExpDateChart,
             'eventDateChart' => $eventDateChart,
-            'eventByDonorCountChart' => $eventByDonorCountChart
+            'eventByDonorCountChart' => $eventByDonorCountChart,
+            'hrByBGChart' => $hrByBGChart,
+            'hrBYBNOChart' => $hrBYBNOChart,
+            'supDemChart' => $supDemChart,
+            'supDemTrendChart' => $supDemTrendChart
         ]);
     }
 }

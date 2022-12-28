@@ -107,6 +107,7 @@ class HospitalRequestFactory extends Factory
             'unit' => fake()->numberBetween(1,5),
             'blood_needed_on' => fake()->dateTimeBetween('now', '+1 year'),
             'note' => fake()->paragraph,
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
