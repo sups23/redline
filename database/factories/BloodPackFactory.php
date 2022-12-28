@@ -17,7 +17,7 @@ class BloodPackFactory extends Factory
      */
     public function definition()
     {   
-        $arrived_at = fake()->dateTimeThisYear;
+        $arrived_at = fake()->dateTimeBetween('-4years', now());
         return [
             'donor_id' => fake()->numberBetween(1,200),
             'event_id' => fake()->numberBetween(1,200),
