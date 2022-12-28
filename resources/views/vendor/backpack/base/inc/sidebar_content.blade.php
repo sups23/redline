@@ -14,4 +14,5 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('blood-pack') }}"><i class="nav-icon la la-tint"></i> Blood packs</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('donor') }}"><i class="nav-icon las la-hand-holding-heart"></i> Donors</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-bell"></i> Events</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('hospital-request') }}"><i class="nav-icon la la-th-list"></i> Hospital requests</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('hospital-request') }}"><i class="nav-icon la la-file"></i> Hospital requests</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('to-be-donor') }}"><i class="nav-icon la la-user-secret"></i> To be donors</a></li>

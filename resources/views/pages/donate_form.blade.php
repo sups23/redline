@@ -1,80 +1,103 @@
 @extends('layouts.layout')
 
-@section('title','Donor Form')
+@section('title', 'Donor Form')
 
 @section('content')
-    
+
     <div class="container">
-        
+
         <div class="flex flex-row">
             <center class="mt-4">
-                <h1 class="max-w-md text-4xl rounded-lg px-4 py-2 font-bold text-center md:text-5xl bg-red-600 text-white">Donate Blood</h1>
+                <h1 class="max-w-md text-4xl rounded-lg px-4 py-2 font-bold text-center md:text-5xl bg-red-600 text-white">
+                    Donate Blood</h1>
                 <br>
                 <p style="padding: 0 15% 3%; font-size: 17px; letter-spacing: 0.5px; color: black;">
-                    Register with us today to pledge to donate blood and we will notify you when donation events come up near
+                    Register with us today to pledge to donate blood and we will notify you when donation events come up
+                    near
                     your area OR let us know if you’d like to donate at a nearby blood bank.
                 </p>
             </center>
         </div>
-        
+
     </div>
-    
-  
-    <form class="container" action="{{ route('pages.live_update.post') }}" method="POST">
+
+
+    <form class="container" action="{{ route('pages.to-be-donor.post') }}" method="POST">
+        @csrf
         <div class="lg:w-1/2 md:w-2/3 mx-auto">
+            @if ($errors->any())
+                <div class="bg-red-100 border-red-400 text-red-700 p-4 rounded-md mb-4">
+                    <ul class="list-disc pl-4">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="flex flex-wrap -m-2">
-              <div class="p-2 w-1/2">
-                <div class="relative">
-                  <label for="name" class="leading-7 text-sm text-red-600">Name</label>
-                  <input type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="name" class="leading-7 text-sm text-red-600">Name</label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}"
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    </div>
                 </div>
-              </div>
-              <div class="p-2 w-1/2">
-                <div class="relative">
-                  <label for="contact" class="leading-7 text-sm text-red-600">Contact</label>
-                  <input type="text" id="contact" name="contact" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="contact" class="leading-7 text-sm text-red-600">Contact</label>
+                        <input type="text" id="contact" name="contact" value="{{ old('contact') }}"
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    </div>
                 </div>
-              </div>
-              <div class="p-2 w-1/2">
-                <div class="relative">
-                  <label for="age" class="leading-7 text-sm text-red-600">Age</label>
-                  <input type="text" id="age" name="age" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="age" class="leading-7 text-sm text-red-600">Age</label>
+                        <input type="text" id="age" name="age" value="{{ old('age') }}"
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    </div>
                 </div>
-              </div>
-              <div class="p-2 w-1/2">
-                <div class="relative">
-                  <label for="address" class="leading-7 text-sm text-red-600">Address</label>
-                  <input type="address" id="address" name="address" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="address" class="leading-7 text-sm text-red-600">Address</label>
+                        <input type="address" id="address" name="address" value="{{ old('address') }}"
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    </div>
                 </div>
-              </div><div class="p-2 w-1/2">
-                <div class="relative">
-                  <label for="gender" class="leading-7 text-sm text-red-600">Gender</label>
-                  <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" id="gender" name="gender" required>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="gender" class="leading-7 text-sm text-red-600">Gender</label>
+                        <select
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            id="gender" name="gender" required>
+                            <option {{ old('gender') == 'male' ? 'selected' : '' }} value="male">Male</option>
+                            <option   {{ old('gender') == 'female' ? 'selected' : '' }} value="female">Female</option>
+                        </select>
+                    </div>
                 </div>
-              </div>
-              <div class="p-2 w-1/2">
-                <div class="relative">
-                  <label for="bloodgroup" class="leading-7 text-sm text-red-600">Blood Group</label>
-                  <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" id="bloodgroup" name="bloodgroup" required>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                  </select>
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="bloodgroup" class="leading-7 text-sm text-red-600">Blood Group</label>
+                        <select
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            id="bloodgroup" name="bloodgroup" required>
+                            <option   {{ old('bloodgroup') == 'A+' ? 'selected' : '' }} value="A+">A+</option>
+                            <option   {{ old('bloodgroup') == 'A-' ? 'selected' : '' }} value="A-">A-</option>
+                            <option   {{ old('bloodgroup') == 'B+' ? 'selected' : '' }} value="B+">B+</option>
+                            <option   {{ old('bloodgroup') == 'B-' ? 'selected' : '' }} value="B-">B-</option>
+                            <option   {{ old('bloodgroup') == 'O+' ? 'selected' : '' }} value="O+">O+</option>
+                            <option   {{ old('bloodgroup') == 'O-' ? 'selected' : '' }} value="O-">O-</option>
+                            <option   {{ old('bloodgroup') == 'AB+' ? 'selected' : '' }} value="AB+">AB+</option>
+                            <option   {{ old('bloodgroup') == 'AB-' ? 'selected' : '' }} value="AB-">AB-</option>
+                        </select>
+                    </div>
                 </div>
-              </div>
-              <div class="p-2 w-full">
-                <button class="flex mx-auto text-white bg-red-600 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">Submit</button>
-              </div>
+                <div class="p-2 w-full">
+                    <button
+                        class="flex mx-auto text-white bg-red-600 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">Submit</button>
+                </div>
             </div>
-          </div>
+        </div>
     </form>
 
     {{-- <div class="text-gray-600 body-font relative">

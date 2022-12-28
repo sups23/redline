@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EventRequest;
+use App\Http\Requests\ToBeDonorRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class EventCrudController
+ * Class ToBeDonorCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class EventCrudController extends CrudController
+class ToBeDonorCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,61 @@ class EventCrudController extends CrudController
      */
     public function setup()
     {
-        $this->crud->setModel(\App\Models\Event::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/event');
-        $this->crud->setEntityNameStrings('event', 'events');
+        $this->crud->setModel(\App\Models\ToBeDonor::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/to-be-donor');
+        $this->crud->setEntityNameStrings('to be donor', 'to be donors');
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'bloodgroup',
+            'type' => 'select2_multiple',
+            'label' => 'Blood Group'
+        ], function () {
+            return [
+                'A+' => 'A+',
+                'B+' => 'B+',
+                'O+' => 'O+',
+                'AB+' => 'AB+',
+                'A-' => 'A-',
+                'B-' => 'B-',
+                'O-' => 'O-',
+                'AB-' => 'AB-'
+            ];
+        }, function ($values) { // if the filter is active
+            $this->crud->addClause('whereIn', 'bloodgroup', json_decode($values));
+        });
+
+        $this->crud->addFilter(
+            [
+                'name'       => 'age',
+                'type'       => 'range',
+                'label'      => 'Age',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'age', '>=', (float) $range->from);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'age', '<=', (float) $range->to);
+                }
+            }
+        );
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'gender',
+            'type' => 'dropdown',
+            'label' => 'Gender'
+        ], function () {
+            return [
+                'male' => 'Male',
+                'female' => 'Female'
+            ];
+        }, function ($value) { // if the filter is active
+            $this->crud->addClause('where', 'gender', $value);
+        });
     }
 
     /**
@@ -39,44 +91,13 @@ class EventCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->column('organizer_name');
+
+        $this->crud->column('name');
         $this->crud->column('address');
-        $this->crud->column('event_at')->label('Event At')->searchLogic(false);
-        $this->crud->column('donors_count')->searchLogic(false);
-
-        $this->crud->addFilter(
-            [
-                'type'  => 'date_range',
-                'name'  => 'event_at',
-                'label' => 'Event date'
-            ],
-            false,
-            function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value);
-                $this->crud->addClause('where', 'event_at', '>=', $dates->from);
-                $this->crud->addClause('where', 'event_at', '<=', $dates->to . ' 23:59:59');
-            }
-        );
-
-        $this->crud->addFilter(
-            [
-                'name'       => 'donors_count',
-                'type'       => 'range',
-                'label'      => 'Donors Count',
-                'label_from' => 'min value',
-                'label_to'   => 'max value'
-            ],
-            false,
-            function ($value) { // if the filter is active
-                $range = json_decode($value);
-                if ($range->from) {
-                    $this->crud->addClause('where', 'donors_count', '>=', (float) $range->from);
-                }
-                if ($range->to) {
-                    $this->crud->addClause('where', 'donors_count', '<=', (float) $range->to);
-                }
-            }
-        );
+        $this->crud->column('contact');
+        $this->crud->column('age')->searchLogic(false);
+        $this->crud->column('gender')->searchLogic(false);
+        $this->crud->column('bloodgroup')->searchLogic(false);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - $this->crud->column('price')->type('number');
@@ -92,11 +113,9 @@ class EventCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $this->crud->setValidation(EventRequest::class);
+        $this->crud->setValidation(ToBeDonorRequest::class);
 
-        $this->crud->field('organizer_name');
-        $this->crud->field('event_at');
-        $this->crud->field('donors_count');
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

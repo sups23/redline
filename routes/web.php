@@ -25,7 +25,7 @@ Route::get('/donate_form', [PageController::class, 'donate_form'])->name('pages.
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/request_blood', [PageController::class, 'request_blood'])->name('pages.request_blood');
 Route::get('/live_update', [PageController::class, 'live_update'])->name('pages.live_update');
-Route::post('/store', [ToBeDonorController::class, 'store'])->name('pages.live_update.post');
+Route::post('/to-be-donor/store', [ToBeDonorController::class, 'store'])->name('pages.to-be-donor.post');
 
 
 

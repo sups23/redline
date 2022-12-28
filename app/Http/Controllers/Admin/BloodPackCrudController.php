@@ -32,6 +32,37 @@ class BloodPackCrudController extends CrudController
         $this->crud->setModel(\App\Models\BloodPack::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/blood-pack');
         $this->crud->setEntityNameStrings('blood pack', 'blood packs');
+    }
+
+    /**
+     * Define what happens when the List operation is loaded.
+     * 
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
+    protected function setupListOperation()
+    {
+        $this->crud->column('donor_id')->searchLogic(true);
+        $this->crud->column('donor.blood_group')->label('Blood Group')->searchLogic(false);
+        $this->crud->column('event_id')->searchLogic(true);
+        $this->crud->column('arrived_at')->searchLogic(false);
+        $this->crud->column('expiry_at')->searchLogic(false);
+        $this->crud->column('blood_type')->searchLogic(false);
+        $this->crud->column('unit')->label('Unit(s)')->searchLogic(false);
+        $this->crud->column('rbc_count')->label('RBC Count')->value(function ($v) {
+            return number_format($v->rbc_count / 10, 1) . ' x 10^12/L';
+        })->searchLogic(false);
+        $this->crud->column('wbc_count')->label('WBC Count')->value(function ($v) {
+            return number_format($v->wbc_count / 10, 1) . ' x 10^9/L';
+        })->searchLogic(false);
+        $this->crud->column('haemo_level')->label('Hemoglobin Level')->value(function ($v) {
+            return number_format($v->haemo_level / 10, 1) . ' g/L';
+        })->searchLogic(false);
+        $this->crud->column('is_sold')->label('Is Sold?')->type('boolean')->searchLogic(false);
+        $this->crud->column('is_reserved')->label('Is Reserved?')->type('boolean')->searchLogic(false);
+
+        $this->crud->addButton('line', 'mark_sold', 'view', 'crud::buttons.mark_sold', 'beginning');
+        $this->crud->addButton('line', 'mark_reserved', 'view', 'crud::buttons.mark_reserved', 'beginning');
 
         $this->crud->addFilter([
             'name' => 'donor_id',
@@ -173,37 +204,6 @@ class BloodPackCrudController extends CrudController
                 }
             }
         );
-    }
-
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
-    protected function setupListOperation()
-    {
-        $this->crud->column('donor_id')->searchLogic(true);
-        $this->crud->column('donor.blood_group')->label('Blood Group')->searchLogic(false);
-        $this->crud->column('event_id')->searchLogic(true);
-        $this->crud->column('arrived_at')->searchLogic(false);
-        $this->crud->column('expiry_at')->searchLogic(false);
-        $this->crud->column('blood_type')->searchLogic(false);
-        $this->crud->column('unit')->label('Unit(s)')->searchLogic(false);
-        $this->crud->column('rbc_count')->label('RBC Count')->value(function ($v) {
-            return number_format($v->rbc_count / 10, 1) . ' x 10^12/L';
-        })->searchLogic(false);
-        $this->crud->column('wbc_count')->label('WBC Count')->value(function ($v) {
-            return number_format($v->wbc_count / 10, 1) . ' x 10^9/L';
-        })->searchLogic(false);
-        $this->crud->column('haemo_level')->label('Hemoglobin Level')->value(function ($v) {
-            return number_format($v->haemo_level / 10, 1) . ' g/L';
-        })->searchLogic(false);
-        $this->crud->column('is_sold')->label('Is Sold?')->type('boolean')->searchLogic(false);
-        $this->crud->column('is_reserved')->label('Is Reserved?')->type('boolean')->searchLogic(false);
-
-        $this->crud->addButton('line', 'mark_sold', 'view', 'crud::buttons.mark_sold', 'beginning');
-        $this->crud->addButton('line', 'mark_reserved', 'view', 'crud::buttons.mark_reserved', 'beginning');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

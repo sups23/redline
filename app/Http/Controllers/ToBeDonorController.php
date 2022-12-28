@@ -2,25 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ToBeDonors;
+use App\Models\ToBeDonor;
 use Illuminate\Http\Request;
 
 class ToBeDonorController extends Controller
 {
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'contact' => 'required|digits:10',
+            'age' => 'required|integer|min:16|max:60',
+            'gender' => 'required|in:male,female',
+            'bloodgroup' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+        ]);
         
         $data = $request->all();
 
-        $toBeDonor = new ToBeDonors();
-        $toBeDonor->name = $data['name'];
-        $toBeDonor->address = $data['address'];
-        $toBeDonor->contact = $data['contact'];
-        $toBeDonor->age = $data['age'];
-        $toBeDonor->gender = $data['gender'];
-        $toBeDonor->bloodgroup = $data['bloodgroup'];
+        ToBeDonor::create([
+            'name' => $data['name'],
+            'address' => $data['address'],
+            'contact' => $data['contact'],
+            'age' => $data['age'],
+            'gender' => $data['gender'],
+            'bloodgroup' => $data['bloodgroup'],
+        ]);
 
-        $toBeDonor->save();
-
-        return redirect()->route('pages.live_update');
+        return redirect()->route('pages.live_update')->with('success', 'Donor Added.');
     }
 }
