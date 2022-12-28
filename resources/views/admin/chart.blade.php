@@ -98,14 +98,14 @@
             </div>
             <div class="col-6">
                 <!-- Content for the second column goes here -->
-                {{-- <div class="card">
+                <div class="card">
                     <div class="card-body">
                         <div class="card-title">Donors by Age Range</div>
                         <div>
-                            {!! $donorsByAgeChart->container() !!}
+                            {!! $eventByDonorCountChart->container() !!}
                         </div>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>
@@ -118,4 +118,5 @@
     {!! $bpByTypeChart->script() !!}
     {!! $bpByArrExpDateChart->script() !!}
     {!! $eventDateChart->script() !!}
+    {!! $eventByDonorCountChart->script() !!}
 @endsection

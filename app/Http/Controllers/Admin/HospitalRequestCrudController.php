@@ -31,6 +31,59 @@ class HospitalRequestCrudController extends CrudController
         $this->crud->setEntityNameStrings('hospital request', 'hospital requests');
 
         $this->crud->denyAccess('create');
+
+        $this->crud->addFilter(
+            [
+                'name'       => 'age',
+                'type'       => 'range',
+                'label'      => 'Age',
+                'label_from' => 'min value',
+                'label_to'   => 'max value'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $range = json_decode($value);
+                if ($range->from) {
+                    $this->crud->addClause('where', 'age', '>=', (float) $range->from);
+                }
+                if ($range->to) {
+                    $this->crud->addClause('where', 'age', '<=', (float) $range->to);
+                }
+            }
+        );
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'blood_group',
+            'type' => 'select2_multiple',
+            'label' => 'Blood Group'
+        ], function () {
+            return [
+                'A+' => 'A+',
+                'B+' => 'B+',
+                'O+' => 'O+',
+                'AB+' => 'AB+',
+                'A-' => 'A-',
+                'B-' => 'B-',
+                'O-' => 'O-',
+                'AB-' => 'AB-'
+            ];
+        }, function ($values) { // if the filter is active
+            $this->crud->addClause('whereIn', 'blood_group', json_decode($values));
+        });
+
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'blood_needed_on',
+                'label' => 'Needed At'
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'blood_needed_on', '>=', $dates->from);
+                $this->crud->addClause('where', 'blood_needed_on', '<=', $dates->to . ' 23:59:59');
+            }
+        );
     }
 
     /**
@@ -44,7 +97,7 @@ class HospitalRequestCrudController extends CrudController
         $this->crud->column('name');
         $this->crud->column('age');
         $this->crud->column('gender');
-        $this->crud->column('form_image');
+        $this->crud->column('form_image')->type('image');
         $this->crud->column('blood_group');
         $this->crud->column('blood_needed_on');
 
@@ -55,6 +108,11 @@ class HospitalRequestCrudController extends CrudController
          * - $this->crud->column('price')->type('number');
          * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']); 
          */
+    }
+
+    public function setupShowOperation()
+    {
+        $this->setupListOperation();
     }
 
     /**

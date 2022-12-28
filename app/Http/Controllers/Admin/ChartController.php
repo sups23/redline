@@ -226,6 +226,49 @@ class ChartController extends Controller
                 'rgb(139, 0, 139)', 'rgb(0, 188, 212)'
             ]);
 
+        $event_donor_data = \App\Models\Event::pluck('age')->groupBy(function ($item, $key) {
+            if ($item < 50) {
+                return '0-50';
+            } elseif ($item < 70) {
+                return '50-70';
+            } elseif ($item < 100) {
+                return '70-100';
+            } elseif ($item < 120) {
+                return '100-120';
+            } elseif ($item < 150) {
+                return '120-150';
+            } elseif ($item < 200) {
+                return '150-200';
+            } else {
+                return '200+';
+            }
+        })->map(function ($group) {
+            return $group->count();
+        });
+        $eventByDonorCountChart = new DonorChart;
+        // $eventByDonorCountChart->minimalist(true);
+        $eventByDonorCountChart->labels($event_donor_data->keys());
+        $eventByDonorCountChart->dataset('Event by Donors Count Range', 'pie', $event_donor_data->values())
+            ->color([
+                'rgb(104, 151, 187)',
+                'rgb(89, 39, 79)',
+                'rgb(0, 128, 128)',
+                'rgb(255, 127, 80)',
+                'rgb(255, 219, 88)',
+                'rgb(178, 34, 34)',
+                'rgb(255, 182, 193)',
+                'rgb(0, 100, 0)',
+            ])
+            ->backgroundColor([
+                'rgb(104, 151, 187)',
+                'rgb(89, 39, 79)',
+                'rgb(0, 128, 128)',
+                'rgb(255, 127, 80)',
+                'rgb(255, 219, 88)',
+                'rgb(178, 34, 34)',
+                'rgb(255, 182, 193)',
+                'rgb(0, 100, 0)',
+            ]);
 
         return view('admin.chart', [
             'donorsByBGChart' => $donorsByBGChart,
@@ -235,6 +278,7 @@ class ChartController extends Controller
             'bpByTypeChart' => $bpByTypeChart,
             'bpByArrExpDateChart' => $bpByArrExpDateChart,
             'eventDateChart' => $eventDateChart,
+            'eventByDonorCountChart' => $eventByDonorCountChart
         ]);
     }
 }
