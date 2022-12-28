@@ -75,7 +75,7 @@ class EventCrudController extends CrudController
     {
         $this->crud->column('organizer_name');
         $this->crud->column('address');
-        $this->crud->column('event_at')->searchLogic(false);
+        $this->crud->column('event_at')->label('Event At')->searchLogic(false);
         $this->crud->column('donors_count')->searchLogic(false);
 
         /**
