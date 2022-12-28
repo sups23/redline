@@ -30,7 +30,31 @@ class HospitalRequestCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/hospital-request');
         $this->crud->setEntityNameStrings('hospital request', 'hospital requests');
 
-        $this->crud->denyAccess('create');
+        if (!backpack_user()->hasRole('Hospital')) {
+            $this->crud->denyAccess('create');
+        }
+    }
+
+    /**
+     * Define what happens when the List operation is loaded.
+     * 
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
+    protected function setupListOperation()
+    {
+        $this->crud->column('name');
+        $this->crud->column('contact');
+        $this->crud->column('age');
+        $this->crud->column('gender')->searchLogic(false)->value(function ($v) {
+            return ucfirst($v->gender);
+        });
+        $this->crud->column('unit');
+        $this->crud->column('form_image')->type('image')->value(fn ($v) => explode(':', $v->form_image)[0] == 'https' ? $v->form_image : 'storage/' . $v->form_image);
+        $this->crud->column('blood_group');
+        $this->crud->column('blood_needed_on');
+
+        $this->crud->removeButton('update');
 
         $this->crud->addFilter(
             [
@@ -97,28 +121,6 @@ class HospitalRequestCrudController extends CrudController
                 $this->crud->addClause('where', 'blood_needed_on', '<=', $dates->to . ' 23:59:59');
             }
         );
-    }
-
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
-    protected function setupListOperation()
-    {
-        $this->crud->column('name');
-        $this->crud->column('contact');
-        $this->crud->column('age');
-        $this->crud->column('gender')->searchLogic(false)->value(function ($v) {
-            return ucfirst($v->gender);
-        });
-        $this->crud->column('unit');
-        $this->crud->column('form_image')->type('image');
-        $this->crud->column('blood_group');
-        $this->crud->column('blood_needed_on');
-
-        $this->crud->removeButton('update');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -144,9 +146,26 @@ class HospitalRequestCrudController extends CrudController
 
         $this->crud->field('name');
         $this->crud->field('age');
-        $this->crud->field('gender');
-        $this->crud->field('form_image');
-        $this->crud->field('blood_group');
+        $this->crud->addField([
+            'name' => 'gender',
+            'type' => 'select_from_array',
+            'options' => ['male' => 'Male', 'female' => 'Female'],
+            'allows_null' => false,
+        ]);
+        $this->crud->addField([   // Upload
+            'name'      => 'form_image',
+            'label'     => 'Image',
+            'type'      => 'upload',
+            'upload'    => true,
+        ]);
+        $this->crud->addfield([
+            'name' => 'blood_group',
+            'type'        => 'select_from_array',
+            'options'     => ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+            'allows_null' => false,
+            'default'     => 'one',
+            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        ]);
         $this->crud->field('blood_needed_on');
         $this->crud->field('note');
 
