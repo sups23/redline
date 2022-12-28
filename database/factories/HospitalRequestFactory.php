@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Patient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\HospitalRequest>
  */
-class DonorFactory extends Factory
+class HospitalRequestFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,53 +16,6 @@ class DonorFactory extends Factory
      */
     public function definition()
     {
-        $cities = [
-            'Kathmandu, Kathmandu, Province 3',
-            'Pokhara, Kaski, Gandaki Pradesh',
-            'Lalitpur, Lalitpur, Bagmati Pradesh',
-            'Bhaktapur, Bhaktapur, Bagmati Pradesh',
-            'Nepalgunj, Banke, Bheri Pradesh',
-            'Dharan, Sunsari, Koshi Pradesh',
-            'Biratnagar, Morang, Koshi Pradesh',
-            'Janakpur, Dhanusa, Janakpur Pradesh',
-            'Birgunj, Parsa, Narayani Pradesh',
-            'Butwal, Rupandehi, Lumbini Pradesh',
-            'Tansen, Palpa, Lumbini Pradesh',
-            'Tulsipur, Dang Deokhuri, Rapti Pradesh',
-            'Dhangadhi, Kailali, Sudurpashchim Pradesh',
-            'Gaur, Rautahat, Narayani Pradesh',
-            'Hetauda, Makwanpur, Bagmati Pradesh',
-            'Ilam, Ilam, Mechi Pradesh',
-            'Jumla, Jumla, Karnali Pradesh',
-            'Kailali, Kailali, Sudurpashchim Pradesh',
-            'Kalaiya, Bara, Narayani Pradesh',
-            'Kanchanpur, Kanchanpur, Sudurpashchim Pradesh',
-            'Kapilvastu, Kapilvastu, Lumbini Pradesh',
-            'Lahan, Siraha, Sagarmatha Pradesh',
-            'Lamahi, Dang Deokhuri, Rapti Pradesh',
-            'Madhyapur Thimi, Bhaktapur, Bagmati Pradesh',
-            'Mahendranagar, Dhanusa, Janakpur Pradesh',
-            'Mechinagar, Jhapa, Mechi Pradesh',
-            'Narayangarh, Chitwan, Bagmati Pradesh',
-            'Nawalparasi, Nawalparasi, Lumbini Pradesh',
-            'Parasi, Nawalparasi, Lumbini Pradesh',
-            'Rajbiraj, Saptari, Sagarmatha Pradesh',
-            'Rupandehi, Rupandehi, Lumbini Pradesh',
-            'Salyan, Salyan, Karnali Pradesh',
-            'Siddharthanagar, Bara, Narayani Pradesh',
-            'Siraha, Siraha, Sagarmatha Pradesh',
-            'Tikapur, Kailali, Sudurpashchim Pradesh',
-            'Tulsipur, Dang Deokhuri, Rapti Pradesh',
-            'Dhangadhi, Kailali, Sudurpashchim Pradesh',
-            'Gaur, Rautahat, Narayani Pradesh',
-            'Hetauda, Makwanpur, Bagmati Pradesh',
-            'Ilam, Ilam, Mechi Pradesh',
-            'Jumla, Jumla, Karnali Pradesh',
-            'Kailali, Kailali, Sudurpashchim Pradesh',
-            'Kalaiya, Bara, Narayani Pradesh',
-            'Kanchanpur, Kanchanpur, Sudurpashchim Pradesh'
-        ];
-
         $names = [
             "Prabesh Shrestha",
             "Sabin Karki",
@@ -143,18 +96,18 @@ class DonorFactory extends Factory
             "Sunil Adhikari",
             "Uttam Bhandari",
             "Yogesh Kandel"
-        ];          
+        ];   
 
         return [
             'name' => fake()->randomElement($names),
-            'blood_group' => fake()->randomElement(['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-']),
             'contact' => fake()->unique()->numberBetween(9800000000, 9899999999),
-            'address' => fake()->randomElement($cities),
             'age' => fake()->numberBetween(16, 60),
             'gender' => fake()->randomElement(['male', 'female']),
-            'donation_interval' => fake()->randomElement(['3 months', '6 months', '1 year', 'irregular']),
-            'last_donation_at' => fake()->dateTimeBetween('-3 years', 'now'),
-            'description' => fake()->realText(300),
+            'form_image' => fake()->imageUrl(),
+            'blood_group' => fake()->randomElement(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+            'unit' => fake()->numberBetween(1,5),
+            'blood_needed_on' => fake()->dateTimeBetween('now', '+1 year'),
+            'note' => fake()->paragraph,
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }

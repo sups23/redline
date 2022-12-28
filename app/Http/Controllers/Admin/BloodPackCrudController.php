@@ -200,8 +200,10 @@ class BloodPackCrudController extends CrudController
             return number_format($v->haemo_level / 10, 1) . ' g/L';
         })->searchLogic(false);
         $this->crud->column('is_sold')->label('Is Sold?')->type('boolean')->searchLogic(false);
+        $this->crud->column('is_reserved')->label('Is Reserved?')->type('boolean')->searchLogic(false);
 
         $this->crud->addButton('line', 'mark_sold', 'view', 'crud::buttons.mark_sold', 'beginning');
+        $this->crud->addButton('line', 'mark_reserved', 'view', 'crud::buttons.mark_reserved', 'beginning');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -298,6 +300,15 @@ class BloodPackCrudController extends CrudController
     {
         $bp = BloodPack::findOrFail($id);
         $bp->is_sold = true;
+        $bp->save();
+
+        return redirect()->back()->with('message', 'Blood pack marked as sold.');
+    }
+
+    public function markReserved(int $id)
+    {
+        $bp = BloodPack::findOrFail($id);
+        $bp->is_reserved = true;
         $bp->save();
 
         return redirect()->back()->with('message', 'Blood pack marked as sold.');
