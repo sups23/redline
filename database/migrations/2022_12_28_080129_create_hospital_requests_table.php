@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('form_image');
             $table->enum('blood_group', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']);
             $table->date('blood_needed_on');
+            $table->unsignedInteger('unit');
             $table->text('note')->nullable();
             $table->timestamps();
         });

@@ -104,6 +104,7 @@ class HospitalRequestFactory extends Factory
             'gender' => fake()->randomElement(['male', 'female', 'other']),
             'form_image' => fake()->imageUrl(),
             'blood_group' => fake()->randomElement(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+            'unit' => fake()->numberBetween(1,5),
             'blood_needed_on' => fake()->dateTimeBetween('now', '+1 year'),
             'note' => fake()->paragraph,
         ];

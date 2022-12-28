@@ -97,6 +97,7 @@ class HospitalRequestCrudController extends CrudController
         $this->crud->column('name');
         $this->crud->column('age');
         $this->crud->column('gender');
+        $this->crud->column('unit');
         $this->crud->column('form_image')->type('image');
         $this->crud->column('blood_group');
         $this->crud->column('blood_needed_on');
