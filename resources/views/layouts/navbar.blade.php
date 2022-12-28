@@ -3,7 +3,7 @@
     <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a href="{{ route('pages.index') }}" class="flex items-center">
             <img src="assets/images/blood-drop.png" class="h-6 mr-3 sm:h-9" alt="Redline Logo">
-            <span class="self-center text-xl font-semibold whitespace-nowrap text-dark-400">RedLine</span>
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-dark-400"><b class="text-red-600">Red</b>Line</span>
         </a>
         <div class="flex md:order-2">
             <button type="button"
