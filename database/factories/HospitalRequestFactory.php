@@ -102,7 +102,7 @@ class HospitalRequestFactory extends Factory
             'name' => fake()->randomElement($names),
             'contact' => fake()->unique()->numberBetween(9800000000, 9899999999),
             'age' => fake()->numberBetween(16, 60),
-            'gender' => fake()->randomElement(['male', 'female', 'other']),
+            'gender' => fake()->randomElement(['male', 'female']),
             'form_image' => fake()->imageUrl(),
             'blood_group' => fake()->randomElement(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
             'unit' => fake()->numberBetween(1,5),

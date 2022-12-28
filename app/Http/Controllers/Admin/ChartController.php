@@ -357,12 +357,12 @@ class ChartController extends Controller
         $supDemChart = new DonorChart;
         // $supDemChart->minimalist(true);
         $supDemChart->labels($bp_units_data->keys());
-        $supDemChart->dataset('Supply', 'line', $bp_units_data->values())
-            ->backgroundColor('rgba(255, 99, 71, 0.6)')
+        $supDemChart->dataset('Supply', 'bar', $bp_units_data->values())
+            ->backgroundColor('rgb(255, 99, 71)')
             ->color('rgb(255, 99, 71)');
         $supDemChart->labels($hr_units_data->keys());
-        $supDemChart->dataset('Demand', 'line', $hr_units_data->values())
-            ->backgroundColor('rgba(75, 192, 192, 0.6)')
+        $supDemChart->dataset('Demand', 'bar', $hr_units_data->values())
+            ->backgroundColor('rgb(75, 192, 192)')
             ->color('rgb(75, 192, 192)');
 
         $records = \App\Models\HospitalRequest::selectRaw('YEAR(created_at) year, MONTH(created_at) month, COUNT(*) count')
@@ -373,7 +373,7 @@ class ChartController extends Controller
         $hr_trend_data = collect();
 
         foreach ($records as $record) {
-            $hr_needed_on_data[$record->year . '/' . $record->month] = $record->count;
+            $hr_trend_data[$record->year . '/' . $record->month] = $record->count;
         }
 
         $records = \App\Models\BloodPack::selectRaw('YEAR(created_at) year, MONTH(created_at) month, COUNT(*) count')
@@ -387,7 +387,6 @@ class ChartController extends Controller
             $bp_trend_data[$record->year . '/' . $record->month] = $record->count;
         }
 
-        dd($bp_trend_data, $hr_trend_data);
         $supDemTrendChart = new DonorChart;
         // $supDemTrendChart->minimalist(true);
         $supDemTrendChart->labels($bp_trend_data->keys());
