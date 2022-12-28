@@ -44,7 +44,7 @@
                 </li>
                 <li>
                     <button class="inline-block relative">
-                        <a href="#" class="block py-2 pl-3">
+                        <a href="{{ route('pages.live_update') }}" class="block py-2 pl-3">
                             <p style="color:#cf3d3c"><u>Live Update
                         <span class="animate-ping absolute top-1 right-0.5 block h-1 w-1 rounded-full ring-2 ring-red-400 bg-red-600"></span>    
                     </u></p>

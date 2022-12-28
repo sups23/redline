@@ -34,4 +34,8 @@ class PageController extends Controller
         return view('pages.request_blood');
     }
 
+    public function live_update(){
+        return view('pages.live_update');
+    }
+
 }

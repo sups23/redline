@@ -22,6 +22,8 @@ Route::get('/why_donate', [PageController::class, 'why_donate'])->name('pages.wh
 Route::get('/donate_form', [PageController::class, 'donate_form'])->name('pages.donate_form');
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/request_blood', [PageController::class, 'request_blood'])->name('pages.request_blood');
+Route::get('/live_update', [PageController::class, 'live_update'])->name('pages.live_update');
+
 
 
 Route::get('/dashboard', function () {
