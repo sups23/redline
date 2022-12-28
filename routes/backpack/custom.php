@@ -17,6 +17,7 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::crud('blood-pack', 'BloodPackCrudController');
+    Route::get('/blood-pack/{id}/mark-sold', 'BloodPackCrudController@markSold')->name('admin.blood_pack.mark_sold');
     Route::crud('donor', 'DonorCrudController');
     Route::crud('event', 'EventCrudController');
     Route::get('charts', 'ChartController@index');
