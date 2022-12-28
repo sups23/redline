@@ -29,4 +29,9 @@ class PageController extends Controller
     public function donate_form(){
         return view('pages.donate_form');
     }
+
+    public function request_blood(){
+        return view('pages.request_blood');
+    }
+
 }
