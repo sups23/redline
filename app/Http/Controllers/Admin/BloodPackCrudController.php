@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Library\Widget;
 use App\Http\Requests\BloodPackRequest;
+use App\Models\BloodPack;
 use App\Models\Donor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -188,6 +189,7 @@ class BloodPackCrudController extends CrudController
         $this->crud->column('arrived_at')->searchLogic(false);
         $this->crud->column('expiry_at')->searchLogic(false);
         $this->crud->column('blood_type')->searchLogic(false);
+        $this->crud->column('unit')->label('Unit(s)')->searchLogic(false);
         $this->crud->column('rbc_count')->label('RBC Count')->value(function ($v) {
             return number_format($v->rbc_count / 10, 1) . ' x 10^12/L';
         })->searchLogic(false);
@@ -197,6 +199,9 @@ class BloodPackCrudController extends CrudController
         $this->crud->column('haemo_level')->label('Hemoglobin Level')->value(function ($v) {
             return number_format($v->haemo_level / 10, 1) . ' g/L';
         })->searchLogic(false);
+        $this->crud->column('is_sold')->label('Is Sold?')->type('boolean')->searchLogic(false);
+
+        $this->crud->addButton('line', 'mark_sold', 'view', 'crud::buttons.mark_sold', 'beginning');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -266,6 +271,7 @@ class BloodPackCrudController extends CrudController
             'default' => 'WB',
         ]);
 
+        $this->crud->field('unit')->label('Unit(s)');
         $this->crud->field('rbc_count')->label('RBC Count');
         $this->crud->field('wbc_count')->label('WBC Count');
         $this->crud->field('haemo_level')->label('Hemoglobin Level');
@@ -286,5 +292,14 @@ class BloodPackCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function markSold(int $id)
+    {
+        $bp = BloodPack::findOrFail($id);
+        $bp->is_sold = true;
+        $bp->save();
+
+        return redirect()->back()->with('message', 'Blood pack marked as sold.');
     }
 }
