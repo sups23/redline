@@ -8,7 +8,7 @@
         
         <div class="flex flex-row">
             <center class="mt-4">
-                <h1 class="max-w-md text-4xl font-bold text-center md:text-5xl bg-red-600 text-white">Donate Blood</h1>
+                <h1 class="max-w-md text-4xl rounded-lg px-4 py-2 font-bold text-center md:text-5xl bg-red-600 text-white">Donate Blood</h1>
                 <br>
                 <p style="padding: 0 15% 3%; font-size: 17px; letter-spacing: 0.5px; color: black;">
                     Register with us today to pledge to donate blood and we will notify you when donation events come up near
@@ -20,7 +20,7 @@
     </div>
     
   
-    <form class="container" action="#">
+    <form class="container" action="{{ route('pages.live_update.post') }}" method="POST">
         <div class="lg:w-1/2 md:w-2/3 mx-auto">
             <div class="flex flex-wrap -m-2">
               <div class="p-2 w-1/2">
@@ -69,13 +69,6 @@
                     <option value="AB-">AB-</option>
                   </select>
                 </div>
-              </div>
-              
-              <div class="flex items-start p-2">
-                <div class="flex items-center h-5">
-                  <input id="terms" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required>
-                </div>
-                <label for="terms" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
               </div>
               <div class="p-2 w-full">
                 <button class="flex mx-auto text-white bg-red-600 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">Submit</button>
