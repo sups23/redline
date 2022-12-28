@@ -6,18 +6,15 @@
     <!-- <h1>About Page</h1> -->
     <!-- <p>This is about us page of Project Redline.</p> -->
 
-    <div class="container mx-auto px-4 py-8">
-  <div class="flex flex-wrap -mx-2">
-    <div class="w-1/2 px-2 mb-4">
-      <h1 class="text-4xl font-bold mb-4">About RedLine</h1>
-      <p class="text-lg leading-relaxed mb-8">
-        RedLine is a blood donation management webapp that connects blood donors with hospitals and other organizations in need of blood donations. It is a comprehensive tool that is designed to help blood banks and other organizations track and manage blood donations, and to optimize blood bank operations. Our mission is to make it easier for people to give the gift of life and help save lives in their community.
-      </p>
-      <h2 class="text-2xl font-bold mb-4">Our Vision</h2>
+<div class="container mx-auto px-4 py-8">
+  <div class="flex flex-wrap w-full mb-6 flex-col items-center text-center">
+    <h1 class="sm:text-3xl text-2xl font-medium py-2 px-2 rounded-lg title-font mb-2 bg-red-600 text-white">About RedLine</h1>
+  </div>
+      <h2 class="sm:text-3xl text-2xl font-medium py-2 px-2 rounded-lg title-font mb-2 bg-red-600 text-white">Our Vision</h2>
       <p class="text-lg leading-relaxed mb-8">
         We envision a world where every person has access to safe and reliable blood donations when they need it. We believe that through innovative technology and a passionate team, we can make a significant impact on the lives of countless individuals.
       </p>
-      <h2 class="text-2xl font-bold mb-4">Our Team</h2>
+      <h2 class="sm:text-3xl text-2xl font-medium py-2 px-2 rounded-lg title-font mb-2 bg-red-600 text-white">Our Team</h2>
       <div class="flex flex-wrap -mx-2">
         <div class="w-1/2 px-2 mb-4">
           <div class="bg-white rounded-lg shadow-lg p-6">
